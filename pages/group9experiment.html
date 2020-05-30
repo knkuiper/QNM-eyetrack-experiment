@@ -1,0 +1,232 @@
+<!DOCTYPE HTML >
+<html>
+<head>
+    <title>QNM experiment group 9</title>
+
+    <!-- <link rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
+
+    <script src="https://api.gazerecorder.com/GazeCloudAPI.js"></script>
+
+    <!--    <script src="{{ url_for('static', filename='js/http_api.gazerecorder.com_GazeCloudAPI.js')}}"></script>-->
+    <script src="https://www.youtube.com/player_api"></script>
+    <script type="text/javascript">
+
+        // //Sending screen specs of client browser to server
+        // var condStr;
+        // if (condNr == 1) {
+        //     condStr = "img";
+        // } else {
+        //     condStr = "noimg";
+        // }
+        clientSpecs = [window.innerHeight, window.innerWidth, screen.height, screen.width];
+        request = new XMLHttpRequest();
+        request.open("POST", "https://qhcirm-exp.xyz/group9/saveclientspecs", true);
+        // request.open("POST", "http://127.0.0.1:5000/saveclientspecs", true);
+        request.setRequestHeader("Content-type", "application/json");
+        request.send(JSON.stringify(clientSpecs));
+        //
+        // var condNr = {{cond}};
+         var caliComp = false;
+         var gazeJSON = [];
+
+
+
+        function PlotGaze(GazeData) {
+
+            /*
+                GazeData.state // 0: valid gaze data; -1 : face tracking lost, 1 : gaze uncalibrated
+                GazeData.docX // gaze x in document coordinates
+                GazeData.docY // gaze y in document cordinates
+                GazeData.time // timestamp
+            */
+
+            document.getElementById("GazeData").innerHTML = "GazeX: " + GazeData.GazeX + " GazeY: " + GazeData.GazeY;
+            document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
+            document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
+
+             if (caliComp) {
+
+                gazeJSON.push(GazeData);
+                // count += 1;
+                // if (count == 5000) {
+                //     request = new XMLHttpRequest()
+                //     // request.open("POST", "http://161.35.208.79:5000/savegaze", true)
+                //     request.open("POST", "http://127.0.0.1:5000/savegaze", true)
+                //     request.setRequestHeader("Content-type", "application/json")
+                //     request.send(JSON.stringify(answersJSON))
+                // }
+            }
+
+            var x = GazeData.docX;
+            var y = GazeData.docY;
+
+            var gaze = document.getElementById("gaze");
+            x -= gaze.clientWidth / 2;
+            y -= gaze.clientHeight / 2;
+
+
+            gaze.style.left = x + "px";
+            gaze.style.top = y + "px";
+
+
+            if (GazeData.state != 0) {
+                if (gaze.style.display == 'block')
+                    gaze.style.display = 'none';
+            } else {
+                if (gaze.style.display == 'none')
+                    gaze.style.display = 'block';
+            }
+
+        }
+
+        //////set callbacks/////////
+
+        GazeCloudAPI.OnCalibrationComplete = function () {
+            console.log('gaze Calibration Complete');
+            var playerDivs = document.querySelectorAll(".vidcont");
+            playerDivs.forEach(function(e, i) {
+              if(e.style.display == "block"){
+                players[i].playVideo();
+              }
+            }
+          );
+            caliComp = true;
+            // var s1 = document.getElementById("step1");
+            // var s2 = document.getElementById("step2");
+            // s1.style.display = "none";
+            // s2.style.display = "block";
+            // player.playVideo();
+            //
+            // document.getElementById("camid").innerHTML = ' ';
+
+        }
+        GazeCloudAPI.OnCamDenied = function () {
+            console.log('camera  access denied')
+        }
+        GazeCloudAPI.OnError = function (msg) {
+            console.log('err: ' + msg)
+        }
+        GazeCloudAPI.UseClickRecalibration = true;
+        GazeCloudAPI.OnResult = PlotGaze;
+
+    </script>
+</head>
+<body>
+
+
+<!--<h1>GazeCloudAPI integration example</h1>-->
+<!--<button type="button" onclick="GazeCloudAPI.StartEyeTracking();">Start</button>-->
+<!--<button type="button" onclick="GazeCloudAPI.StopEyeTracking();">Stop</button>-->
+<!--<div style="display: none;">-->
+<div style="display: none">
+    <div>
+        <p>
+            Real-Time Result:
+        <p id="GazeData"></p>
+        <p id="HeadPhoseData"></p>
+        <p id="HeadRotData"></p>
+        </p>
+    </div>
+    <div id="gaze"
+         style='position: absolute;display:none;width: 100px;height: 100px;border-radius: 50%;border: solid 2px  rgba(255, 255,255, .2);	box-shadow: 0 0 100px 3px rgba(125, 125,125, .5);	pointer-events: none;	z-index: 999999'></div>
+    ;
+</div>
+
+<div id="maincont" align="center">
+
+    <div id="step1" >
+        <div id="introcont" class="introcont">
+            <h2>Experiment and calibrations instructions: </h2>
+            <p>
+              <br>Please make sure that you are using a laptop or desktop for this experiment.
+              <br>You will have to allow access to the webcam of your laptop/desktop.
+              <br>
+              <br>The eye tracking software needs to be calibrated before starting the experiment.
+              <br>Please follow the calibration instructions explained to you.
+              <br>
+              <br>When the calibration is done, the video will start playing automatically.
+              <br>
+              <br> If your participant-ID is an ODD number please select group A below.
+              <br> If your participant-ID is an EVEN number please select group B below.
+            </p>
+            </h2>
+        </div>
+
+        <!-- <form> -->
+          <input type="radio" id="groupA" name="radiobutton" value="groupA">
+          <label for="groupA">Group A</label><br>
+          <input type="radio" id="groupB" name="radiobutton" value="groupB">
+          <label for="groupB">Group B</label><br>
+          <p>Click on 'Calibrate Eye-tracker' when you are ready to start the calibration.</p>
+          <!-- <input id="calibrate" type="submit" value="Calibrate Eye-tracker"> -->
+          <button id="calibrate0" type="button" class="calibrateButton">Calibrate Eye-tracker</button>
+        <!-- </form> -->
+
+        <!-- <button id="b0" type="button">Proceed</button> -->
+    </div>
+
+
+    <div id="step-groupA" style='display:none;'>
+        <div id="videoA-part1" class="vidcont">
+        </div>
+
+        <div id="infoA-part1" style='display:none;'>
+          <p> Please go back to the tab with the Qualtrics survey to continue the research.
+          Remember to keep this tab open. </p>
+
+          <br>
+          <p>When you have filled out the survey you have to calibrate the eyetracker again</p>
+          <button id="calibrate1" type="button" class="calibrateButton">Calibrate Eye-tracker</button>
+        </div>
+
+        <div id="videoA-part2" class="vidcont" style='display:none;'>
+        </div>
+
+        <div id="infoA-part2" style='display:none;'>
+          <p> Please go back to the tab with the Qualtrics survey to finish the research.
+        </div>
+
+    </div>
+
+    <div id="step-groupB" style='display:none;'>
+        <div id="videoB-part1" class="vidcont">
+        </div>
+
+        <div id="infoB-part1" style='display:none;'>
+          <p>Please go back to the tab with the Qualtrics survey to continue the research.
+            Remember to keep this tab open.</p>
+
+          <br>
+          <p>When you have filled out the survey you have to calibrate the eyetracker again</p>
+          <button id="calibrate2" type="button" class="calibrateButton">Calibrate Eye-tracker</button>
+        </div>
+
+        <div id="videoB-part2" class="vidcont" style='display:none;'>
+        </div>
+
+        <div id="infoB-part2" style='display:none;'>
+          <p> Please go back to the tab with the Qualtrics survey to finish the research.
+        </div>
+    </div>
+
+    <!-- <div id="step3" style='display: none;'>
+        <div id="forward">
+        </div>
+        <iframe id="qualtrics1"
+                src="https://docs.google.com/forms/d/e/1FAIpQLSc-2vaspGxWRVvMpcikL-N80OKADZTUr88eQayilKlavLALDg/viewform?embedded=true&usp=pp_url&entry.559814125={{partID}}"
+                width="640" height="1947" frameborder="0" marginheight="0" marginwidth="0">Loading…
+        </iframe>
+     </div>
+
+    <div id="step4" style='display: none;'>
+        <iframe id="qualtrics3"
+                src="https://docs.google.com/forms/d/e/1FAIpQLSeVmv3jQAPrq06LWmN1VZTfyUop0OMxVsRKydnf0lo_jVIRiw/viewform?usp=pp_url&entry.1093570491={{partID}}"
+                width="640" height="1947" frameborder="0" marginheight="0" marginwidth="0">Loading…
+        </iframe>
+    </div> -->
+
+</div>
+
+<script src="{{ url_for('static', filename='js/group9-sequence.js')}}"></script>
+</body>
+</html>
