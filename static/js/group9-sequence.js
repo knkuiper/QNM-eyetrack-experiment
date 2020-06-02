@@ -1,35 +1,5 @@
 var stepCount = 0;
 
-// document.getElementById('introcont').onload = function () {
-//     /*Execute on every reload on iFrame*/
-//     loadCount1++;
-//     window.scrollTo(0, 0);
-//     if (loadCount1 > 3) {
-//         window.scrollTo(0, 0);
-//         //s0 = document.getElementById("step0");
-//         s1 = document.getElementById("step1");
-//         //s0.style.display = "none";
-//         s1.style.display = "block";
-//     }
-// }
-//
-// document.getElementById('vidcont').onload = function () {
-//     /*Execute on every reload on iFrame*/
-//     loadCount2++;
-//     if (loadCount2 == 2) {
-//         window.scrollTo(0, 0);
-//         s3 = document.getElementById("step3");
-//         s4 = document.getElementById("step4");
-//         //s3.style.display = "none";
-//         s4.style.display = "block";
-//     }
-// }
-//
-// document.getElementById('gform3').onload = function () {
-//     /*Execute on every reload on iFrame*/
-//         window.scrollTo(0, 0);
-// }
-//
 var videos = [
     '9Wkp2e-S4L4', // Group A part 1 (subs off)
     '01vOeI9iHvw', // Group A part 2 (subs on)
@@ -44,7 +14,7 @@ var playerB2; // Group B part 2 (subs off)
 
 var playerDivs = document.querySelectorAll(".vidcont");
 
-var playerDivsArr = [].slice.call(playerDivs); // nodelist to array to use forEach();
+var playerDivsArr = [].slice.call(playerDivs);
 var players = new Array(playerDivsArr.length);
 var waypoints = new Array(playerDivsArr.length);
 
@@ -76,7 +46,6 @@ funcCont.push(
             //Send gazeData to server
             request = new XMLHttpRequest()
             request.open("POST", "https://qhcirm-exp.xyz/group9/savegaze", true)
-            // request.open("POST", "http://127.0.0.1:5000/savegaze", true)
             request.setRequestHeader("Content-type", "application/json")
             request.send(JSON.stringify(gazeJSON))
         }
@@ -95,7 +64,6 @@ funcCont.push(
             //Send gazeData to server
             request = new XMLHttpRequest()
             request.open("POST", "https://qhcirm-exp.xyz/group9/savegaze", true)
-            // request.open("POST", "http://127.0.0.1:5000/savegaze", true)
             request.setRequestHeader("Content-type", "application/json")
             request.send(JSON.stringify(gazeJSON))
         }
@@ -114,7 +82,6 @@ funcCont.push(
             //Send gazeData to server
             request = new XMLHttpRequest()
             request.open("POST", "https://qhcirm-exp.xyz/group9/savegaze", true)
-            // request.open("POST", "http://127.0.0.1:5000/savegaze", true)
             request.setRequestHeader("Content-type", "application/json")
             request.send(JSON.stringify(gazeJSON))
         }
@@ -133,85 +100,14 @@ funcCont.push(
             //Send gazeData to server
             request = new XMLHttpRequest()
             request.open("POST", "https://qhcirm-exp.xyz/group9/savegaze", true)
-            // request.open("POST", "http://127.0.0.1:5000/savegaze", true)
             request.setRequestHeader("Content-type", "application/json")
             request.send(JSON.stringify(gazeJSON))
         }
     }
 );
 
-// function onYouTubePlayerAPIReady() {
-//     playerA1 = new YT.Player('videoA-part1', {
-//         //height: '390',
-//         //width: '640',
-//         height: window.innerHeight,
-//         width: window.innerWidth,
-//         videoId: videos[0],
-//         events: {
-//             //'onReady': onPlayerReady,
-//             'onStateChange': onPlayerStateChange
-//         }
-//     });
-//     // playerA2 = new YT.Player('videoA-part2', {
-//     //     //height: '390',
-//     //     //width: '640',
-//     //     height: window.innerHeight,
-//     //     width: window.innerWidth,
-//     //     videoId: videos[1],
-//     //     events: {
-//     //         //'onReady': onPlayerReady,
-//     //         'onStateChange': onPlayerStateChange
-//     //     }
-//     // });
-//     playerB1 = new YT.Player('videoB-part2', {
-//         //height: '390',
-//         //width: '640',
-//         height: window.innerHeight,
-//         width: window.innerWidth,
-//         videoId: videos[2],
-//         events: {
-//             //'onReady': onPlayerReady,
-//             'onStateChange': onPlayerStateChange
-//         }
-//     });
-//     // playerB2 = new YT.Player('videoB-part2', {
-//     //     //height: '390',
-//     //     //width: '640',
-//     //     height: window.innerHeight,
-//     //     width: window.innerWidth,
-//     //     videoId: videos[3],
-//     //     events: {
-//     //         //'onReady': onPlayerReady,
-//     //         'onStateChange': onPlayerStateChange
-//     //     }
-//     // });
-// }
-
-//
-// // autoplay video
-// // function onPlayerReady(event) {
-// //     event.target.playVideo();
-// // }
-// // when video ends
-//
 function onPlayerStateChange(event) {
-    // if (event.data === 0) {
-    //     var s2 = document.getElementById("step2");
-    //     var s3 = document.getElementById("step3");
-    //     s2.style.display = "none";
-    //     s3.style.display = "block";
-    //     GazeCloudAPI.StopEyeTracking();
-    //     //caliComp = false;
-    //     //Send gazeData to server
-    //     request = new XMLHttpRequest()
-    //     request.open("POST", "https://qhcirm-exp.xyz/savegaze", true)
-    //     // request.open("POST", "http://127.0.0.1:5000/savegaze", true)
-    //     request.setRequestHeader("Content-type", "application/json")
-    //     request.send(JSON.stringify(gazeJSON))
-    // }
 }
-
-//document.getElementById("calibrate").onclick =
 
 var buttonFunc = function () {
     GazeCloudAPI.StartEyeTracking();
@@ -239,7 +135,6 @@ var buttonFunc = function () {
     var infoB1cont = document.getElementById("infoB-part1");
 
     if (group == "groupA") {
-
         if (stepCount == 0) {
             groupACont.style.display = 'block';
             vidcontA1.style.display = 'block';
@@ -258,17 +153,6 @@ var buttonFunc = function () {
             vidcontB2.style.display = 'block';
         }
     }
-
-    //   var playerDivs = document.querySelectorAll(".vidcont");
-    //   playerDivs.forEach(function(e, i) {
-    //     if(e.style.display == "block"){
-    //       players[i].playVideo();
-    //     }
-    //   }
-    // );
-
-    // document.getElementById("calibrate").disabled = true;
-    // document.getElementById("b0").disabled = false;
 };
 
 var calibrationButtons = document.querySelectorAll(".calibrateButton");
@@ -276,12 +160,3 @@ var calibrationButtons = document.querySelectorAll(".calibrateButton");
 calibrationButtons.forEach(function (e, i) {
     e.onclick = buttonFunc;
 })
-
-
-//Button step 0 -> inits vid1
-// document.getElementById("b0").onclick = function () {
-//     var s1 = document.getElementById("step1");
-//     var s2 = document.getElementById("step2");
-//     s1.style.display = "none";
-//     s2.style.display = "block";
-// };

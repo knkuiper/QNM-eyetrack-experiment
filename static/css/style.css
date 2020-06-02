@@ -1,24 +1,3 @@
-/*.vidcont, introcont {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*}*/
-/*.iframe{*/
-/*  width: 200px;*/
-/*}*/
-
-/*body,*/
-/*html {*/
-/*    height: 100%;*/
-/*    width: 100%;*/
-/*}*/
-/*body{*/
-/*    display: table;*/
-/*    height:100%;*/
-/*    width: 100%;*/
-/*    overflow: hidden;*/
-/*}*/
-
 .question{
 	font-weight: 600;
 }
@@ -27,4 +6,8 @@
 }
 .answers label{
   display: block;
+}
+
+p.instructions{
+  font-size: 120%;
 }
